@@ -1,306 +1,62 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "MCP API Gateway - Epic 1",
-      "version": "1.0.0",
-      "description": "OpenAPI specification for the core functionality of the MCP API Gateway, covering stories 1.1 through 1.5."
-    },
-    "paths": {
-      "/api/servers": {
-        "post": {
-          "summary": "Register a Developer's MCP Server",
-          "description": "Allows a developer to register their MCP server with the platform. The server is saved first and validated later.",
-          "operationId": "registerMcpServer",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "owner_id": {
-                      "type": "string",
-                      "format": "uuid"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "url": {
-                      "type": "string",
-                      "format": "uri"
-                    },
-                    "tool_prices": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "tool_name": {
-                            "type": "string"
-                          },
-                          "price_in_credits": {
-                            "type": "integer"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "required": [
-                    "owner_id",
-                    "url"
-                  ]
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Server registered successfully."
-            },
-            "400": {
-              "description": "Missing required fields."
-            },
-            "500": {
-              "description": "Error creating server."
-            }
-          },
-          "x-zuplo-route": {
-            "corsPolicy": "none",
-            "handler": {
-              "export": "default",
-              "module": "$import(~/modules/routes/servers/register)",
-              "options": {}
-            },
-            "policies": {
-              "inbound": []
-            }
-          }
-        }
-      },
-      "/api/test-auth": {
-        "get": {
-          "summary": "Test Authentication",
-          "description": "A test endpoint to verify that the API key authentication policy is working correctly.",
-          "operationId": "testGetAuthentication",
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Authentication successful."
-            },
-            "401": {
-              "description": "Unauthorized."
-            }
-          },
-          "x-zuplo-route": {
-            "corsPolicy": "none",
-            "handler": {
-              "export": "default",
-              "module": "$import(~/modules/routes/test-auth)",
-              "options": {}
-            },
-            "policies": {
-              "inbound": [
-                "api-key-auth"
-              ]
-            }
-          }
-        }
-      },
-      "/api/mcp/{serverId}": {
-        "post": {
-          "summary": "Proxy MCP Request",
-          "description": "The main proxy endpoint for consumers to send requests to a registered MCP server.",
-          "operationId": "proxyMcpRequest",
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "parameters": [
-            {
-              "name": "serverId",
-              "in": "path",
-              "required": true,
+  "openapi": "3.0.0",
+  "info": {
+    "title": "MCP API Gateway - Minimal Test",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/servers": {
+      "post": {
+        "summary": "Register Server - Test",
+        "operationId": "registerServer",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
               "schema": {
-                "type": "string",
-                "format": "uuid"
+                "type": "object"
               }
-            }
-          ],
-          "requestBody": {
-            "description": "A standard MCP request body.",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Proxied response from the upstream server."
-            },
-            "401": {
-              "description": "Unauthorized."
-            },
-            "402": {
-              "description": "Insufficient credits."
-            },
-            "403": {
-              "description": "Server is not available."
-            },
-            "404": {
-              "description": "Server not found or user wallet missing."
-            }
-          },
-          "x-zuplo-route": {
-            "corsPolicy": "none",
-            "handler": {
-              "export": "default",
-              "module": "$import(~/modules/routes/mcp-proxy)",
-              "options": {}
-            },
-            "policies": {
-              "inbound": [
-                "api-key-auth"
-              ]
             }
           }
-        }
-      },
-      "/api/admin/servers/{serverId}/validate": {
-        "post": {
-          "summary": "Validate an MCP Server",
-          "description": "Admin endpoint to trigger the MCP 'initialize' handshake and update the server's compliance status.",
-          "operationId": "adminValidateServer",
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "parameters": [
-            {
-              "name": "serverId",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "format": "uuid"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Server status updated."
-            },
-            "401": {
-              "description": "Unauthorized."
-            },
-            "403": {
-              "description": "Forbidden. Admin access required."
-            },
-            "404": {
-              "description": "Server not found."
-            },
-            "500": {
-              "description": "Failed to update server."
-            }
-          },
-          "x-zuplo-route": {
-            "corsPolicy": "none",
-            "handler": {
-              "export": "default",
-              "module": "$import(~/modules/routes/admin/validate-server)",
-              "options": {}
-            },
-            "policies": {
-              "inbound": [
-                "api-key-auth",
-                "is-admin"
-              ]
-            }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
-        }
-      },
-      "/api/admin/credits/add": {
-        "post": {
-          "summary": "Add Credits to a User",
-          "description": "Admin endpoint to manually add credits to a user's wallet.",
-          "operationId": "adminAddCredits",
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "userId": {
-                      "type": "string",
-                      "format": "uuid"
-                    },
-                    "amount": {
-                      "type": "integer"
-                    }
-                  },
-                  "required": [
-                    "userId",
-                    "amount"
-                  ]
-                }
-              }
-            }
+        },
+        "x-zuplo-route": {
+          "corsPolicy": "none",
+          "handler": {
+            "export": "default",
+            "module": "$import(./modules/routes/servers/register)"
           },
-          "responses": {
-            "200": {
-              "description": "Credits added successfully."
-            },
-            "401": {
-              "description": "Unauthorized."
-            },
-            "403": {
-              "description": "Forbidden. Admin access required."
-            },
-            "500": {
-              "description": "Failed to add credits."
-            }
-          },
-          "x-zuplo-route": {
-            "corsPolicy": "none",
-            "handler": {
-              "export": "default",
-              "module": "$import(~/modules/routes/admin/add-credits)",
-              "options": {}
-            },
-            "policies": {
-              "inbound": [
-                "api-key-auth",
-                "is-admin"
-              ]
-            }
+          "policies": {
+            "inbound": []
           }
         }
       }
     },
-    "components": {
-      "securitySchemes": {
-        "ApiKeyAuth": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "API Key"
+    "/api/health": {
+      "get": {
+        "summary": "Health Check",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-zuplo-route": {
+          "corsPolicy": "none",
+          "handler": {
+            "export": "default",
+            "module": "$import(./modules/routes/health)",
+            "options": {}
+          },
+          "policies": {
+            "inbound": []
+          }
         }
       }
     }
   }
+}
