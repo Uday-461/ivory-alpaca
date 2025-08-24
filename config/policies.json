@@ -1,3 +1,20 @@
 {
-  "policies": []
+  "policies": [
+    {
+      "handler": {
+        "export": "ApiKeyAuthPolicy",
+        "module": "$import(~/modules/policies/api-key-auth)"
+      },
+      "name": "api-key-auth",
+      "policyType": "custom-code-inbound"
+    },
+    {
+      "handler": {
+        "export": "IsAdminPolicy",
+        "module": "$import(~/modules/policies/is-admin)"
+      },
+      "name": "is-admin",
+      "policyType": "custom-code-inbound"
+    }
+  ]
 }
