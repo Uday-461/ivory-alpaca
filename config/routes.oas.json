@@ -1,4 +1,4 @@
-{
+ {
   "openapi": "3.0.0",
   "info": {
     "title": "MCP API Gateway - Epic 1",
@@ -66,18 +66,17 @@
             "description": "Error creating server."
           }
         },
-        "x-zuplo-handler": {
-          "module": "$import(~/modules/routes/servers/register)"
-        },
         "x-zuplo-route": {
           "corsPolicy": "none",
           "handler": {
             "export": "default",
-            "module": "$import(./modules/routes/servers/register)",
+            "module": "$import(~/modules/routes/servers/register)",
             "options": {}
           },
           "policies": {
-            "inbound": []
+            "inbound": [
+              "api-key-auth"
+            ]
           }
         }
       }
@@ -100,23 +99,17 @@
             "description": "Unauthorized."
           }
         },
-        "x-zuplo-handler": {
-          "module": "$import(~/modules/routes/test-auth)"
-        },
-        "x-zuplo-policies": {
-          "inbound": [
-            "api-key-auth"
-          ]
-        },
         "x-zuplo-route": {
           "corsPolicy": "none",
           "handler": {
             "export": "default",
-            "module": "$import(./modules/routes/test-auth)",
+            "module": "$import(~/modules/routes/test-auth)",
             "options": {}
           },
           "policies": {
-            "inbound": []
+            "inbound": [
+              "api-key-auth"
+            ]
           }
         }
       }
@@ -170,23 +163,17 @@
             "description": "Server not found or user wallet missing."
           }
         },
-        "x-zuplo-handler": {
-          "module": "$import(~/modules/routes/mcp-proxy)"
-        },
-        "x-zuplo-policies": {
-          "inbound": [
-            "api-key-auth"
-          ]
-        },
         "x-zuplo-route": {
           "corsPolicy": "none",
           "handler": {
             "export": "default",
-            "module": "$import(./modules/routes/mcp-proxy)",
+            "module": "$import(~/modules/routes/mcp-proxy)",
             "options": {}
           },
           "policies": {
-            "inbound": []
+            "inbound": [
+              "api-key-auth"
+            ]
           }
         }
       }
@@ -229,24 +216,18 @@
             "description": "Failed to update server."
           }
         },
-        "x-zuplo-handler": {
-          "module": "$import(~/modules/routes/admin/validate-server)"
-        },
-        "x-zuplo-policies": {
-          "inbound": [
-            "api-key-auth",
-            "is-admin"
-          ]
-        },
         "x-zuplo-route": {
           "corsPolicy": "none",
           "handler": {
             "export": "default",
-            "module": "$import(./modules/routes/admin/validate-server)",
+            "module": "$import(~/modules/routes/admin/validate-server)",
             "options": {}
           },
           "policies": {
-            "inbound": []
+            "inbound": [
+              "api-key-auth",
+              "is-admin"
+            ]
           }
         }
       }
@@ -298,24 +279,18 @@
             "description": "Failed to add credits."
           }
         },
-        "x-zuplo-handler": {
-          "module": "$import(~/modules/routes/admin/add-credits)"
-        },
-        "x-zuplo-policies": {
-          "inbound": [
-            "api-key-auth",
-            "is-admin"
-          ]
-        },
         "x-zuplo-route": {
           "corsPolicy": "none",
           "handler": {
             "export": "default",
-            "module": "$import(./modules/routes/admin/add-credits)",
+            "module": "$import(~/modules/routes/admin/add-credits)",
             "options": {}
           },
           "policies": {
-            "inbound": []
+            "inbound": [
+              "api-key-auth",
+              "is-admin"
+            ]
           }
         }
       }
